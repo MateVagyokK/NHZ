@@ -6,6 +6,8 @@ Készítette: Saskó Máté
 **********************************************/
 #include <stdio.h>
 #include "include/event.h"
+#include <stdbool.h>
+#include <string.h>
 
 /*Visszatérési érték nélküli függvény, mely elmenti a mentést tartalmazó txt-be a lista eseményeit.
 Paraméterként kéri a lista első elemét.
@@ -30,11 +32,11 @@ void writeToFile(listItem *first)
     for (moving = first; moving != NULL; moving = moving->next)
     {
         event a = moving->data;
-        fprintf(fptr, "%s\n", a.name);
-        fprintf(fptr, "%d.%d.%d.\n", a.eventDate.year, a.eventDate.month, a.eventDate.day);
-        fprintf(fptr, "%d:%d\n", a.eventTime.hour, a.eventTime.minute);
-        fprintf(fptr, "%s\n", a.place);
-        fprintf(fptr, "%s\n", a.desc);
+        fprintf(fptr, "[name]:%s\n", a.name);
+        fprintf(fptr, "[date]:%d.%d.%d.\n", a.eventDate.year, a.eventDate.month, a.eventDate.day);
+        fprintf(fptr, "[time]:%d:%d\n", a.eventTime.hour, a.eventTime.minute);
+        fprintf(fptr, "[place]:%s\n", a.place);
+        fprintf(fptr, "[desc]:%s\n", a.desc);
     }
 
     fclose(fptr);
@@ -50,25 +52,50 @@ listItem *readFromFile(listItem *first)
     if (fptr == NULL)
     {
         perror("Fájl megnyitása sikertelen");
+        getchar();
         return NULL;
     }
     event tmp;
     char buffer[200];
     fgets(buffer, 200, fptr);
     int n = 0;
+    bool error = false;
     sscanf(buffer, "%d", &n);
     for (int i = 0; i < n; i++)
     {
         fgets(buffer, 200, fptr);
-        sscanf(buffer, "%[^\n]", tmp.name);
+        if (sscanf(buffer, "[name]:%[^\n]", tmp.name) != 1)
+        {
+            error = true;
+            strcpy(tmp.name, "");
+        }
         fgets(buffer, 200, fptr);
-        sscanf(buffer, "%d.%d.%d.", &tmp.eventDate.year, &tmp.eventDate.month, &tmp.eventDate.day);
+        if (sscanf(buffer, "[date]:%d.%d.%d.", &tmp.eventDate.year, &tmp.eventDate.month, &tmp.eventDate.day) != 3)
+        {
+            error = true;
+        }
         fgets(buffer, 200, fptr);
-        sscanf(buffer, "%d:%d", &tmp.eventTime.hour, &tmp.eventTime.minute);
+        if (sscanf(buffer, "[time]:%d:%d", &tmp.eventTime.hour, &tmp.eventTime.minute) != 2)
+        {
+            error = true;
+        }
         fgets(buffer, 200, fptr);
-        sscanf(buffer, "%[^\n]", tmp.place);
+        if (sscanf(buffer, "[place]:%[^\n]", tmp.place) != 1)
+        {
+            error = true;
+            strcpy(tmp.place, "");
+        }
         fgets(buffer, 200, fptr);
-        sscanf(buffer, "%[^\n]", tmp.desc);
+        if (sscanf(buffer, "[desc]:%[^\n]", tmp.desc) != 1)
+        {
+            error = true;
+            strcpy(tmp.desc, "");
+        }
+        if (error)
+        {
+            printf("Hiba");
+            getchar();
+        }
         first = addListItem(first, tmp);
     }
     fclose(fptr);
