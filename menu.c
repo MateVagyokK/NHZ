@@ -36,39 +36,54 @@ void printEvent(event ev)
 
     econio_textcolor(COL_DARKGRAY);
     /* printf("\t%d.%d.%d %d:%d\n", ev.eventDate.year, ev.eventDate.month, ev.eventDate.day, ev.eventTime.hour, ev.eventTime.minute); */
-    printf("\t%d.", ev.eventDate.year);
-    if (ev.eventDate.month < 10)
+    if (ev.eventDate.year == -1)
     {
-        printf("0%d.", ev.eventDate.month);
+        printf("\n");
     }
     else
     {
-        printf("%d.", ev.eventDate.month);
+        printf("\t%d.", ev.eventDate.year);
+        if (ev.eventDate.month < 10)
+        {
+            printf("0%d.", ev.eventDate.month);
+        }
+        else
+        {
+            printf("%d.", ev.eventDate.month);
+        }
+        if (ev.eventDate.day < 10)
+        {
+            printf("0%d.", ev.eventDate.day);
+        }
+        else
+        {
+            printf("%d. ", ev.eventDate.day);
+        }
     }
-    if (ev.eventDate.day < 10)
+    if (ev.eventTime.hour == -1)
     {
-        printf("0%d.", ev.eventDate.day);
+        printf("\n");
     }
     else
     {
-        printf("%d. ", ev.eventDate.day);
+        if (ev.eventTime.hour < 10)
+        {
+            printf("0%d:", ev.eventTime.hour);
+        }
+        else
+        {
+            printf("%d:", ev.eventTime.hour);
+        }
+        if (ev.eventTime.minute < 10)
+        {
+            printf("0%d.\n", ev.eventTime.minute);
+        }
+        else
+        {
+            printf("%d\n", ev.eventTime.minute);
+        }
     }
-    if (ev.eventTime.hour < 10)
-    {
-        printf("0%d:", ev.eventTime.hour);
-    }
-    else
-    {
-        printf("%d:", ev.eventTime.hour);
-    }
-    if (ev.eventTime.minute < 10)
-    {
-        printf("0%d.\n", ev.eventTime.minute);
-    }
-    else
-    {
-        printf("%d\n", ev.eventTime.minute);
-    }
+
     econio_textcolor(COL_WHITE);
 
     printf("\t%s\n", ev.place);
@@ -366,8 +381,8 @@ listItem *addEvent_menu(listItem *first)
     bool running = true;
     while (running)
     {
-        printf("Esemeny felvetele\nNEV: %s\n", name);
-        printf("DATUM: [%d.%d.%d.]\nIDOPONT: [%d:%d]\n", tmpDate.year, tmpDate.month, tmpDate.day, tmpTime.hour, tmpTime.minute);
+        custom_clear();
+        printEvent(tmp);
         printf("1. Esemeny felvetele\n");
         printf("2. Megse\n");
         int input;
