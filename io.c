@@ -62,7 +62,7 @@ void getTime(time *el)
     while (sscanf(timeChar, "%d:%d", &el->hour, &el->minute) != 2 || el->hour > 23 || el->hour < 0 || el->minute > 59 || el->minute < 0)
     {
         custom_clear();
-        printf("Hibas bemenet!");
+        printf("Hibas bemenet!\n");
         printf("Esemeny ideje: ");
         econio_textcolor(COL_DARKGRAY);
         printf("[ora:perc]\n");

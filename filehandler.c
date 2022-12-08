@@ -9,24 +9,6 @@ Készítette: Saskó Máté
 #include <stdbool.h>
 #include <string.h>
 
-/* char *toEng(char *inp)
-{
-    int i = 0;
-    while (inp[i] != '\0')
-    {
-        switch (inp[i])
-        {
-        case 'á':
-            inp[i++] = 'a';
-            break;
-
-        default:
-            i++;
-            break;
-        }
-    }
-    return inp;
-} */
 /*Visszatérési érték nélküli függvény, mely elmenti a mentést tartalmazó txt-be a lista eseményeit.
 Paraméterként kéri a lista első elemét.
 Globálisan használható.*/
@@ -50,11 +32,11 @@ void writeToFile(listItem *first)
     for (moving = first; moving != NULL; moving = moving->next)
     {
         event a = moving->data;
-        fprintf(fptr, "[name]:%s\n", a.name);
+        fprintf(fptr, "[name]:%s \n", a.name);
         fprintf(fptr, "[date]:%d.%d.%d.\n", a.eventDate.year, a.eventDate.month, a.eventDate.day);
         fprintf(fptr, "[time]:%d:%d\n", a.eventTime.hour, a.eventTime.minute);
-        fprintf(fptr, "[place]:%s\n", a.place);
-        fprintf(fptr, "[desc]:%s\n", a.desc);
+        fprintf(fptr, "[place]:%s \n", a.place);
+        fprintf(fptr, "[desc]:%s \n", a.desc);
     }
 
     fclose(fptr);
@@ -120,19 +102,23 @@ listItem *readFromFile(listItem *first)
             bool running = true;
             while (running)
             {
-                printf("Hibas mentesfajl!\nA betoltendo adatok kozt valoszinuleg hiba szerepel.\nKivanja igy is betolteni?\n");
+                printf("Hibas mentesfajl!\nA betoltendo adatok kozt valoszinuleg hiba szerepel.\nKivanja igy is betolteni es manualisan javitani az esemenyeket?\n");
                 printf("1. Betoltes mellozese\n");
                 printf("2. Betoltes folytatasa\n");
                 int input;
                 scanf("%d", &input);
+                getchar();
                 switch (input)
                 {
                 case 1:
                     fclose(fptr);
                     return NULL;
+                    break;
                 case 2:
                     asked = true;
                     running = false;
+                    break;
+                default:
                     break;
                 }
             }

@@ -289,6 +289,7 @@ void printEvents_menu(listItem *first)
 
         int input;
         scanf("%d", &input);
+        getchar();
         switch (input)
         {
         case 1:
@@ -387,6 +388,7 @@ listItem *addEvent_menu(listItem *first)
         printf("2. Megse\n");
         int input;
         scanf("%d", &input);
+        getchar();
         switch (input)
         {
         case 1:
@@ -410,6 +412,7 @@ listItem *removeEvent_menu(listItem *first)
 
     int input;
     scanf("%d", &input);
+    getchar();
     if (input == -1)
     {
         return first;
@@ -462,12 +465,12 @@ listItem *modifyEvent(listItem *first, int id)
     bool running = true;
     while (running)
     {
-        printf("Esemeny felvetele\nNEV: %s\n", name);
-        printf("DATUM: [%d.%d.%d.]\nIDOPONT: [%d:%d]\n", tmpDate.year, tmpDate.month, tmpDate.day, tmpTime.hour, tmpTime.minute);
+        printEvent(tmp);
         printf("1. Esemeny felvetele\n");
         printf("2. Megse\n");
         int input;
         scanf("%d", &input);
+        getchar();
         switch (input)
         {
         case 1:
@@ -490,6 +493,7 @@ listItem *modifyEvent_menu(listItem *first)
     printf("Adja meg a modositani kivant elem azonositojat vagy (-1)-et a visszalepeshez!\n");
     int input;
     scanf("%d", &input);
+    getchar();
     if (input == -1)
     {
         return first;
@@ -520,6 +524,7 @@ listItem *main_menu(listItem *first)
 
         int input;
         scanf("%d", &input);
+        getchar();
         switch (input)
         {
         case 1:
